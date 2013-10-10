@@ -30,12 +30,9 @@ if [ -n "`echo $current | grep "&"`" ]; then
 	echo $current
 fi
 }
-function output_file_remove {
-	if [ $(sed $= -n /var/www/voice/output.txt) >= "15" ]
-	then 
-		rm /var/www/voice/output.txt
-		touch /var/www/voice/output.txt
-	fi
+function web_out {
+	rm /var/www/voice/output.txt
+	echo $1 >> /var/www/voice/output.txt
 }
 
 
@@ -51,7 +48,7 @@ if [ $size -gt $lastsize ]
 	then
 		if [ $first -eq 0 ]
 		then
-			echo "Aufnahme!" && echo -e "Aufnahme\n\r" >> /var/www/voice/output.txt
+			echo "Aufnahme!" && web_out "Aufnahme"
 			rec=1
 		else
 			first=0
@@ -68,7 +65,7 @@ if [ $size -gt $lastsize ]
 
 				if [[ $(cat stt.txt) =~ "weiter" ]]
 				then
-					echo "[Musik] Sprachbefehl 'weiter' erkannt!" && echo -e "[Musik] Sprachbefehl 'weiter' erkannt!\n\r" >> /var/www/voice/output.txt
+					echo "[Musik] Sprachbefehl 'weiter' erkannt!" && web_out "[Musik] Sprachbefehl 'weiter' erkannt!"
 					mpc next
 					say-title
 					
@@ -76,63 +73,63 @@ if [ $size -gt $lastsize ]
 					
 				elif [[ $(cat stt.txt) =~ "zurück" ]]
 				then
-					echo "[Musik] Sprachbefehl 'zurück' erkannt!" && echo -e "[Musik] Sprachbefehl 'zurück' erkannt!\n\r" >> /var/www/voice/output.txt 					
+					echo "[Musik] Sprachbefehl 'zurück' erkannt!" && web_out "[Musik] Sprachbefehl 'zurück' erkannt!" 					
 					mpc next					
 					say-title
 						
 				elif [[ $(cat stt.txt) =~ "Pause" ]]
 				then
-					echo "[Musik] Sprachbefehl 'Pause' erkannt!" && echo -e "[Musik] Sprachbefehl 'Pause' erkannt!\n\r" >> /var/www/voice/output.txt
+					echo "[Musik] Sprachbefehl 'Pause' erkannt!" && web_out "[Musik] Sprachbefehl 'Pause' erkannt!"
 					mpc pause 					
 					say "Pausiere"
 					
 				elif [[ $(cat stt.txt) =~ "play" ]]
 				then
-					echo "[Musik] Sprachbefehl 'zurück' erkannt!" && echo -e "[Musik] Sprachbefehl 'zurück' erkannt!\n\r" >> /var/www/voice/output.txt
+					echo "[Musik] Sprachbefehl 'zurück' erkannt!" && web_out "[Musik] Sprachbefehl 'zurück' erkannt!"
 										
 					say-title
 					
 				elif [[ $(cat stt.txt) =~ "leiser" || $(cat stt.txt) =~ "leise" ]]
 				then
-					echo "[Musik] Sprachbefehl 'leiser' erkannt!" && echo -e "[Musik] Sprachbefehl 'leiser' erkannt!\n\r" >> /var/www/voice/output.txt
+					echo "[Musik] Sprachbefehl 'leiser' erkannt!" && web_out "[Musik] Sprachbefehl 'leiser' erkannt!"
 					mpc volume -5 					
 					say "Leiser"
 					
 				elif [[ $(cat stt.txt) =~ "lauter" || $(cat stt.txt) =~ "laut" ]]
 				then
-					echo "[Musik] Sprachbefehl 'lauter' erkannt!" && echo -e "[Musik] Sprachbefehl 'lauter' erkannt!\n\r" >> /var/www/voice/output.txt
+					echo "[Musik] Sprachbefehl 'lauter' erkannt!" && web_out "[Musik] Sprachbefehl 'lauter' erkannt!"
 					mpc volume +5	 					
 					say "Lauter"
 				elif [[ $(cat stt.txt) =~ "Titel" ]]
 				then 
-					echo "[Musik] Srachbefehl 'Titel' erkannt!" && echo -e "[Musik] Srachbefehl 'Titel' erkannt!\n\r" >> /var/www/voice/output.txt
+					echo "[Musik] Srachbefehl 'Titel' erkannt!" && web_out "[Musik] Srachbefehl 'Titel' erkannt!"
 					say-title				
 				elif [[ $(cat stt.txt) =~ "Zufall" ]]
 				then
 					random=$(mpc random | head -n 3)
 					if [ -n "`echo $random | grep "random: on"`" ]; then
-						echo "[Musik] Zufallswiedergabe an." && echo -e "[Musik] Zufallswiedergabe an.\n\r" >> /var/www/voice/output.txt
+						echo "[Musik] Zufallswiedergabe an." && web_out "[Musik] Zufallswiedergabe an."
 						say "Zufallswiedergabe an."
 					else
-						echo "[Musik] Zufallswiedergabe aus." && echo -e "[Musik] Zufallswiedergabe aus.\n\r" >> /var/www/voice/output.txt
+						echo "[Musik] Zufallswiedergabe aus." && web_out "[Musik] Zufallswiedergabe aus."
 						say "Zufallswiedergabe aus."
 						fi	
 				elif [[ $(cat stt.txt) =~ "Wiederholung" ]]
 				then
 					repeat=$(mpc random | head -n 3)
 					if [ -n "`echo $repeat | grep "repeat: on"`" ]; then
-						echo "[Musik] Wiederholung an." && echo -e "[Musik] Wiederholung an.\n\r" >> /var/www/voice/output.txt
+						echo "[Musik] Wiederholung an." && web_out "[Musik] Wiederholung an."
 						say "Wiederholung an."
 					else
-						echo "[Musik] Wiederholung aus." && echo -e "[Musik] Wiederholung aus.\n\r" >> /var/www/voice/output.txt
+						echo "[Musik] Wiederholung aus." && web_out "[Musik] Wiederholung aus."
 						say "Wiederholung aus."
 						fi
 					# mach was
 				else
- 					echo "Kein Kommando erkannt..." && echo -e "Kein Kommando erkannt.\n\r" >> /var/www/voice/output.txt
+ 					echo "Kein Kommando erkannt..." && web_out "Kein Kommando erkannt."
 				fi
 
-			output_file_remove			
+						
 			sleep 1
 			bash ctvoice.sh
 		else
