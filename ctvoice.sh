@@ -25,7 +25,7 @@ function remove_and {
 current=$(mpc current)
 #Das kaufmännische und in ein normales und verwandeln 
 if [ -n "`echo $current | grep "&"`" ]; then
-	echo "Ersetze kaufmännisches und."
+	echo "[Musik] Ersetze kaufmännisches und."
 	current=$(echo $current | sed 's/&/and/g')
 	echo $current
 fi
@@ -43,7 +43,7 @@ if [ $size -gt $lastsize ]
 	then
 		if [ $first -eq 0 ]
 		then
-			echo "Aufnahme!"
+			echo "Aufnahme!" && say "Aufnahme!"
 			rec=1
 		else
 			first=0
@@ -60,7 +60,7 @@ if [ $size -gt $lastsize ]
 
 				if [[ $(cat stt.txt) =~ "weiter" ]]
 				then
-					echo "Sprachbefehl 'weiter' erkannt!"
+					echo "[Musik] Sprachbefehl 'weiter' erkannt!"
 					mpc next
 					say-title
 					
@@ -68,55 +68,55 @@ if [ $size -gt $lastsize ]
 					
 				elif [[ $(cat stt.txt) =~ "zurück" ]]
 				then
-					echo "Sprachbefehl 'zurück' erkannt!" 					
+					echo "[Musik] Sprachbefehl 'zurück' erkannt!" 					
 					mpc next					
 					say-title
 						
 				elif [[ $(cat stt.txt) =~ "Pause" ]]
 				then
-					echo "Sprachbefehl 'Pause' erkannt!"
+					echo "[Musik] Sprachbefehl 'Pause' erkannt!"
 					mpc pause 					
 					say "Pausiere"
 					
 				elif [[ $(cat stt.txt) =~ "play" ]]
 				then
-					echo "Sprachbefehl 'zurück' erkannt!"
+					echo "[Musik] Sprachbefehl 'zurück' erkannt!"
 										
 					say-title
 					
 				elif [[ $(cat stt.txt) =~ "leiser" ]]
 				then
-					echo "Sprachbefehl 'leiser' erkannt!"
+					echo "[Musik] Sprachbefehl 'leiser' erkannt!"
 					mpc volume -5 					
 					say "Leiser"
 					
 				elif [[ $(cat stt.txt) =~ "lauter" ]]
 				then
-					echo "Sprachbefehl 'lauter' erkannt!"
+					echo "[Musik] Sprachbefehl 'lauter' erkannt!"
 					mpc volume +5	 					
 					say "Lauter"
 				elif [[ $(cat stt.txt) =~ "Titel" ]]
 				then 
-					echo "Srachbefehl 'Titel' erkannt!"
+					echo "[Musik] Srachbefehl 'Titel' erkannt!"
 					say-title				
 				elif [[ $(cat stt.txt) =~ "Zufall" ]]
 				then
 					random=$(mpc random | head -n 3)
 					if [ -n "`echo $random | grep "random: on"`" ]; then
-						echo "Zufallswiedergabe an."
+						echo "[Musik] Zufallswiedergabe an."
 						say "Zufallswiedergabe an."
 					else
-						echo "Zufallswiedergabe aus."
+						echo "[Musik] Zufallswiedergabe aus."
 						say "Zufallswiedergabe aus."
 						fi	
 				elif [[ $(cat stt.txt) =~ "Wiederholung" ]]
 				then
 					repeat=$(mpc random | head -n 3)
 					if [ -n "`echo $repeat | grep "repeat: on"`" ]; then
-						echo "Wiederholung an."
+						echo "[Musik] Wiederholung an."
 						say "Wiederholung an."
 					else
-						echo "Wiederholung aus."
+						echo "[Musik] Wiederholung aus."
 						say "Wiederholung aus."
 						fi
 					# mach was
