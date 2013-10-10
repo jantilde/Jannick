@@ -62,7 +62,7 @@ if [ $size -gt $lastsize ]
 				then
 					echo "Sprachbefehl 'weiter' erkannt!"
 					say-en "$(mpc next | head -n 1)"
-					
+					remove_and
 					
 					
 				elif [[ $(cat stt.txt) =~ "zurück" ]]
