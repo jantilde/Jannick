@@ -99,8 +99,26 @@ if [ $size -gt $lastsize ]
 				then 
 					echo "Srachbefehl 'Titel' erkannt!"
 					say-title				
-
-					
+				elif [[ $(cat stt.txt) =~ "Zufall" ]]
+				then
+					random=$(mpc random | head -n 3)
+					if [ -n "`echo $random | grep "random: on"`" ]; then
+						echo "Zufallswiedergabe an."
+						say "Zufallswiedergabe an."
+					else
+						echo "Zufallswiedergabe aus."
+						say "Zufallswiedergabe aus."
+						fi	
+				elif [[ $(cat stt.txt) =~ "Wiederholung" ]]
+				then
+					repeat=$(mpc random | head -n 3)
+					if [ -n "`echo $repeat | grep "repeat: on"`" ]; then
+						echo "Wiederholung an."
+						say "Wiederholung an."
+					else
+						echo "Wiederholung aus."
+						say "Wiederholung aus."
+						fi
 					# mach was
 				else
  					echo "Kein Kommando erkannt..."
