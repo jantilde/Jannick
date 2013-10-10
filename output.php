@@ -1,8 +1,9 @@
 <?php
-$handle = fopen ("output.txt", "r");
-while (!feof($handle)) {
-    $buffer = fgets($handle);
-    echo $buffer;
-}
-fclose ($handle);
+$datei = file("output.txt");
+
+
+foreach($datei AS $meine_datei)
+   {
+   echo $meine_datei."<br>";
+   }
 ?>
