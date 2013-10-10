@@ -84,13 +84,13 @@ if [ $size -gt $lastsize ]
 										
 					say-title
 					
-				elif [[ $(cat stt.txt) =~ "leiser" || $(cat stt.txt) =~ "leise"]]
+				elif [[ $(cat stt.txt) =~ "leiser" || $(cat stt.txt) =~ "leise" ]]
 				then
 					echo "[Musik] Sprachbefehl 'leiser' erkannt!"
 					mpc volume -5 					
 					say "Leiser"
 					
-				elif [[ $(cat stt.txt) =~ "lauter" || $(cat stt.txt) =~ "laut"]]
+				elif [[ $(cat stt.txt) =~ "lauter" || $(cat stt.txt) =~ "laut" ]]
 				then
 					echo "[Musik] Sprachbefehl 'lauter' erkannt!"
 					mpc volume +5	 					
