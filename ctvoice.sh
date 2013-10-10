@@ -17,8 +17,8 @@ mplayer -ao alsa:device=hw=0.0 -really-quiet -http-header-fields "User-Agent:Moz
 }
 function say-title {
 mpc pause
- 
-say-en "$(mpc current)"
+remove_and 
+say-en "$(echo $current)"
 mpc play
 }
 function remove_and {
@@ -27,8 +27,8 @@ current=$(mpc current)
 if [ -n "`echo $current | grep "&"`" ]; then
 	echo "Ersetze kaufmännisches und."
 	current=$(echo $current | sed 's/&/and/g')
+	echo $current
 fi
-echo $current
 }
 
 sox -t alsa hw:1,0 test.wav silence 1 0 0.5% -1 1.0 1% &
@@ -61,14 +61,16 @@ if [ $size -gt $lastsize ]
 				if [[ $(cat stt.txt) =~ "weiter" ]]
 				then
 					echo "Sprachbefehl 'weiter' erkannt!"
-					say-en "$(mpc next | head -n 1)"
-					remove_and
+					mpc next
+					say-title
+					
 					
 					
 				elif [[ $(cat stt.txt) =~ "zurück" ]]
 				then
 					echo "Sprachbefehl 'zurück' erkannt!" 					
-					say-en "$(mpc prev | head -n 1)"
+					mpc next					
+					say-title
 						
 				elif [[ $(cat stt.txt) =~ "Pause" ]]
 				then
@@ -80,7 +82,7 @@ if [ $size -gt $lastsize ]
 				then
 					echo "Sprachbefehl 'zurück' erkannt!"
 										
-					say "$(mpc play | head -n 1)"
+					say-title
 					
 				elif [[ $(cat stt.txt) =~ "leiser" ]]
 				then
