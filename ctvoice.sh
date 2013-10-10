@@ -51,7 +51,7 @@ if [ $size -gt $lastsize ]
 	else
 		if [ $rec -eq 1 ]
 			then
-				echo "Abschicken" && echo -e "Abschicken\n\r" >> /var/www/voice/output.txt
+				echo "Abschicken" && echo -e "Identifiziere das Gesprochene\n\r" >> /var/www/voice/output.txt
 				kill $sox_pid
 				ffmpeg -loglevel panic -y -i test.wav -ar 16000 -acodec flac file.flac
 				wget -q -U "Mozilla/5.0" --post-file file.flac --header "Content-Type: audio/x-flac; rate=16000" -O - "http://www.google.com/speech-api/v1/recognize?lang=de-de&client=chromium" | cut -d\" -f12 >stt.txt
@@ -127,7 +127,7 @@ if [ $size -gt $lastsize ]
 			sleep 1
 			bash ctvoice.sh
 		else
-			echo "Stille..." && echo -e "Stille...\n\r" >> /var/www/voice/output.txt
+			echo "Bereit"
 		fi
 		rec=0
 fi
