@@ -30,6 +30,14 @@ if [ -n "`echo $current | grep "&"`" ]; then
 	echo $current
 fi
 }
+function output_file_remove {
+	if [ $(sed $= -n /var/www/voice/output.txt) >= "15" ]
+	then 
+		rm /var/www/voice/output.txt
+		touch /var/www/voice/output.txt
+	fi
+}
+
 
 sox -t alsa hw:1,0 test.wav silence 1 0 0.5% -1 1.0 1% &
 sox_pid=$!
@@ -124,6 +132,7 @@ if [ $size -gt $lastsize ]
  					echo "Kein Kommando erkannt..." && echo -e "Kein Kommando erkannt.\n\r" >> /var/www/voice/output.txt
 				fi
 
+			output_file_remove			
 			sleep 1
 			bash ctvoice.sh
 		else
