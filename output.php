@@ -1,4 +1,8 @@
 <?php
-//This is the php-script to ctvoice, wich will display the output of ctvoice.sh in the Browser.
-readfile("output.txt");
+$handle = fopen ("output.txt", "r");
+while (!feof($handle)) {
+    $buffer = fgets($handle);
+    echo $buffer;
+}
+fclose ($handle);
 ?>
