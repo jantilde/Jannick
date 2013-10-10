@@ -32,7 +32,7 @@ fi
 }
 function web_out {
 	rm /var/www/voice/output.txt
-	echo "$1 | Läuft gerade: $current"  >> /var/www/voice/output.txt
+	echo "$1 | Läuft gerade: $(mpc current)"  >> /var/www/voice/output.txt
 }
 
 
