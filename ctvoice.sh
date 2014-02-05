@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # c't Hardware Hacks - Spracherkennung für den Raspberry Pi, GPL-Lizenz
+# Modified for MPD by Jannick Fahlbusch (www.jantil.de)
 
 count=1
 lastsize=0
